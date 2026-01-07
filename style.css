@@ -123,3 +123,35 @@
     object-fit: contain;
     display: inline-block;
   }
+
+  
+.hero {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-text {
+  position: absolute;
+  margin-left: 3.3em;
+  bottom: 3em;
+  max-width: 40%;
+  padding: 2rem;
+  border-radius: 12px;
+  color: #222;
+  background: #ffe7e9c0;
+  backdrop-filter: blur(4px);
+}
+
+.hero-text h1 {
+font-family: 'Italiana', serif;
+margin: 0 0 .5rem 0;
+font-size: 2.3rem;
+}

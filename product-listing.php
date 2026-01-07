@@ -40,8 +40,37 @@
   
   <div class="shop-grid">
     
-    <aside class="sidebar-filters">
-        <p>Filters komen hier...</p>
+  <aside class="sidebar-filters">
+      <form action="product-listing.php" method="GET">
+        <h3>Filter & Sort</h3>
+        
+        <div class="filter-group">
+            <h4>Category</h4>
+            <label><input type="checkbox" name="category[]" value="flowers"> Flowers</label>
+            <label><input type="checkbox" name="category[]" value="vases"> Vases</label>
+            <label><input type="checkbox" name="category[]" value="tools"> Tools</label>
+            <label><input type="checkbox" name="category[]" value="occasions"> Occasions</label>
+        </div>
+
+        <div class="filter-group">
+            <h4>Color</h4>
+            <label><input type="checkbox" name="color[]" value="pink"> Pink</label>
+            <label><input type="checkbox" name="color[]" value="white"> White</label>
+            <label><input type="checkbox" name="color[]" value="red"> Red</label>
+        </div>
+
+        <div class="filter-group">
+            <h4>Sort By</h4>
+            <select name="sort" onchange="this.form.submit()">
+                <option value="">Default</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-small" style="width:100%; margin-top:10px;">Apply Filters</button>
+        <a href="product-listing.php" style="display:block; text-align:center; margin-top:10px; font-size: 0.9em; color:#555;">Clear filters</a>
+      </form>
     </aside>
 
     <div class="product-grid">

@@ -90,3 +90,69 @@
 .continue-shopping {
     margin-top: 1rem;
 }
+
+.cart-summary {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.cart-summary h3 {
+    font-family: 'Italiana', serif;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.8rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+}
+
+.summary-line p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.summary-total {
+    border-top: 2px solid var(--pink);
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+}
+
+.summary-total h4 {
+    font-size: 1.4rem;
+    margin: 0;
+    font-family: 'Italiana', serif;
+}
+
+.checkout-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .cart-item {
+        flex-wrap: wrap;
+    }
+
+    .cart-item-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cart-item-total {
+        width: auto;
+        margin-left: auto;
+    }
+}

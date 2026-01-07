@@ -121,7 +121,23 @@ if ($selectedSort === 'price_asc') {
     </aside>
 
     <div class="product-grid">
-        <p>Producten komen hier...</p>
+      <?php if (count($filteredProducts) > 0): ?>
+          <?php foreach ($filteredProducts as $product): ?>
+            <article class="product-card">
+                <a href="product-detail.php?id=<?php echo $product['id']; ?>">
+                    <img src="<?php echo $product['image']; ?>" alt="<?php echo strip_tags($product['name']); ?>" class="product-image">
+                </a>
+                <div class="product-info">
+                    <h3><a href="product-detail.php?id=<?php echo $product['id']; ?>"><?php echo $product['name']; ?></a></h3>
+                    <p class="product-category"><?php echo ucfirst($product['category']); ?></p>
+                    <p class="product-price">$<?php echo number_format($product['price'], 2); ?></p>
+                    <button class="btn-small">Add to Cart</button>
+                </div>
+            </article>
+          <?php endforeach; ?>
+      <?php else: ?>
+          <p>No products found.</p>
+      <?php endif; ?>
     </div>
 
   </div>

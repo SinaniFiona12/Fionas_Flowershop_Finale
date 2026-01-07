@@ -1,3 +1,28 @@
+<?php
+    include_once(__DIR__ . "/classes/User.php");
+
+    if (!empty($_POST)) {
+        try {
+            $user = new User();
+            $user->setFullname($_POST['name']);
+            $user->setEmail($_POST['email']);
+            
+            if ($_POST['password'] !== $_POST['confirm-password']) {
+                throw new Exception("Wachtwoorden komen niet overeen.");
+            }
+            
+            $user->setPassword($_POST['password']);
+            $user->register();
+
+            header("Location: login.php");
+            exit();
+
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

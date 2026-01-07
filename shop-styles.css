@@ -108,3 +108,14 @@
     margin-top: 0;
     margin-bottom: 1rem;
 }
+
+@media (max-width: 900px) {
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-filters {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+}

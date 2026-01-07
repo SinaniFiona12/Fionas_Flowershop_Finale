@@ -58,13 +58,18 @@
   </div>
 </header>
 
-<main class="container page-content" style="padding: 4rem 0; display: flex; justify-content: center;">
+<main class="page-content login-bg"> style="padding: 4rem 0; display: flex; justify-content: center;">
     
     <div class="form-card">
         <h2>Welcome Back</h2>
+        <?php if (isset($error)): ?>
+        <div style="background-color: #ffe7e9; color: #cc3333; padding: 10px; border-radius: 8px; margin-bottom: 1em;">
+            <?php echo htmlspecialchars($error); ?>
+        </div>
+    <?php endif; ?>
         <p>Please login to your account.</p>
         
-        <form action="login.php" method="POST">
+        <form <form class="auth-form" action="" method="POST">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" required placeholder="you@example.com">

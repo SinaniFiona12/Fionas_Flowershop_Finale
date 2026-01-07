@@ -22,15 +22,16 @@
         }
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | Fiona's Flowershop</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="form-styles.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="form-styles.css" /> 
 </head>
 <body>
 
@@ -48,8 +49,8 @@
       </nav>
     </div>
     <div class="header-right">
-      <form class="header-search">
-        <input type="search" placeholder="Search…" />
+      <form class="header-search" action="product-listing.php" method="get">
+        <input type="search" name="search" placeholder="Search…" />
         <button type="submit">Search</button>
       </form>
       <a href="login.php"><img src="images/account.png" alt="Account"></a>
@@ -58,36 +59,31 @@
   </div>
 </header>
 
-<main class="page-content login-bg"> style="padding: 4rem 0; display: flex; justify-content: center;">
+<main class="page-content login-bg">
+  <div class="form-card">
+    <h2>Welcome Back!</h2>
     
-    <div class="form-card">
-        <h2>Welcome Back</h2>
-        <?php if (isset($error)): ?>
+    <?php if (isset($error)): ?>
         <div style="background-color: #ffe7e9; color: #cc3333; padding: 10px; border-radius: 8px; margin-bottom: 1em;">
             <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>
-        <p>Please login to your account.</p>
-        
-        <form <form class="auth-form" action="" method="POST">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="you@example.com">
-            </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="••••••••">
-            </div>
-
-            <button type="submit" class="btn" style="width: 100%;">Log In</button>
-        </form>
-
-        <p class="auth-footer">
-            New here? <a href="register.php">Create an account</a>
-        </p>
-    </div>
-
+    <form class="auth-form" action="" method="post">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn" style="width: 100%;">Login</button>
+    </form>
+    <p class="form-link">
+      Don't have an account? <a href="register.php">Register here</a>
+    </p>
+  </div>
 </main>
 
 <footer class="site-footer">

@@ -1,3 +1,28 @@
+<?php
+    include_once(__DIR__ . "/classes/User.php");
+    session_start();
+
+    if (!empty($_POST)) {
+        try {
+            $user = new User();
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+
+            $userData = $user->canLogin();
+
+            if ($userData) {
+                $_SESSION['user'] = $userData;
+                header('Location: index.php');
+                exit();
+            } else {
+                $error = "Foute gegevens.";
+            }
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

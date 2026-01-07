@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | Fiona's Flowershop</title>
   <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="form-styles.css" />
 </head>
 <body>
 
@@ -33,9 +33,9 @@
   </div>
 </header>
 
-<main class="container" style="padding: 4rem 0; display: flex; justify-content: center;">
+<main class="container page-content" style="padding: 4rem 0; display: flex; justify-content: center;">
     
-    <div class="auth-card">
+    <div class="form-card">
         <h2>Welcome Back</h2>
         <p>Please login to your account.</p>
         

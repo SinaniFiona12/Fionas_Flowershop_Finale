@@ -86,5 +86,28 @@
   </article>
 </section>
 
+<section class="about container" id="about">
+  <div class="about-content">
+    <div class="about-text">
+      <h2>Rooted in love, grown local.</h2>
+      <p>
+        <strong>Fiona’s Flowershop</strong> began as a small garden project and blossomed 
+        into a passion for connecting people through nature.
+      </p>
+      <p>
+        We are proud to be 100% foam-free and dedicated to <strong>sustainable sourcing</strong>. 
+        We work directly with local growers to bring you blooms that are fresher 
+        and support our community.
+      </p>
+    </div>
+  </div> 
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© 2025 Fiona’s Flowershop</p>
+  </div>
+</footer>
+
 </body>
 </html>

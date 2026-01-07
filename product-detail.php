@@ -73,7 +73,19 @@ if (!$product) {
 </header>
 
 <main class="container detail-layout" style="padding: 4rem 0;">
-    <p>Loading product...</p>
+<div class="detail-content">
+      <div class="detail-image-wrapper">
+        <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+      </div>
+      <div class="detail-text">
+        <p class="breadcrumbs"><a href="product-listing.php">Shop</a> / <?php echo $product['name']; ?></p>
+        <h1><?php echo $product['name']; ?></h1>
+        <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+        <p class="description"><?php echo $product['description']; ?></p>
+        
+        <button class="btn">Add to Cart</button>
+      </div>
+    </div>
 </main>
 
 <footer class="site-footer">

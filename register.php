@@ -22,14 +22,15 @@
         }
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Register | Fiona's Flowershop</title>
+  
   <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="form-styles.css" />
 </head>
 <body>
@@ -48,8 +49,8 @@
       </nav>
     </div>
     <div class="header-right">
-      <form class="header-search">
-        <input type="search" placeholder="Search…" />
+      <form class="header-search" action="product-listing.php" method="get">
+        <input type="search" name="search" placeholder="Search…" />
         <button type="submit">Search</button>
       </form>
       <a href="login.php"><img src="images/account.png" alt="Account"></a>
@@ -58,36 +59,39 @@
   </div>
 </header>
 
-<main class="container page-content" style="padding: 4rem 0; display: flex; justify-content: center;">
+<main class="page-content login-bg">
+  <div class="form-card">
+    <h2>Create Your Account</h2>
     
-    <div class="form-card">
-        <h2>Create Account</h2>
-        <p>Join us for exclusive updates and faster checkout.</p>
-        
-        <form action="register.php" method="POST">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required placeholder="Fiona Visser">
-            </div>
+    <?php if (isset($error)): ?>
+        <div style="background-color: #ffe7e9; color: #cc3333; padding: 10px; border-radius: 8px; margin-bottom: 1em;">
+            <?php echo htmlspecialchars($error); ?>
+        </div>
+    <?php endif; ?>
 
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="you@example.com">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="••••••••">
-            </div>
-
-            <button type="submit" class="btn" style="width: 100%;">Sign Up</button>
-        </form>
-
-        <p class="auth-footer">
-            Already have an account? <a href="login.php">Log In</a>
-        </p>
-    </div>
-
+    <form class="auth-form" action="" method="post">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required placeholder="Fiona Visser">
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn" style="width: 100%;">Register</button>
+    </form>
+    <p class="form-link">
+      Already have an account? <a href="login.php">Login here</a>
+    </p>
+  </div>
 </main>
 
 <footer class="site-footer">

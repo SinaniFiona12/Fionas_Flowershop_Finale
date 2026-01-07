@@ -48,6 +48,43 @@
   </div>
 </section>
 
+<section class="categories container">
+  <div class="category-card" id="flowers">
+    <h2>Flowers</h2>
+    <div class="image-category-wrapper">
+        <img class="image-category" src="images/bouquet.svg" alt="flower bouquet">
+    </div>
+    <p>Seasonal bouquets & single stems.</p>
+    <a class="btn-small" href="product-listing.php?category=flowers">Browse</a>
+  </div>
+
+  <div class="category-card" id="occasions">
+    <h2>Occasions</h2>
+    <div class="image-category-wrapper">
+        <img class="image-category" src="images/wedding.svg" alt="wedding photo">
+    </div>
+    <p>Birthday, anniversary, weddings & more.</p>
+    <a class="btn-small" href="product-listing.php?category=occasions">Browse</a>
+  </div>
+
+  <div class="category-card" id="vases">
+    <h2>Vases</h2>
+    <div class="image-category-wrapper">
+        <img class="image-category" src="images/vase.svg" alt="vases">
+    </div>
+    <p>Hand-picked vases for every bouquet.</p>
+    <a class="btn-small" href="product-listing.php?category=vases">Browse</a>
+  </div>
+  
+  <article id="tools" class="category-card">
+    <h2>Tools</h2>
+    <div class="image-category-wrapper">
+        <img class="image-category" src="images/tools.svg" alt="tools">
+    </div>
+    <p>Pruners, tape, foam & packaging supplies.</p>
+    <a class="btn-small" href="product-listing.php?category=tools">Browse</a>
+  </article>
+</section>
 
 </body>
 </html>

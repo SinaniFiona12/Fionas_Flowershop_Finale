@@ -79,5 +79,16 @@
                 return false;
             }
         }
+
+        public function changePassword($newPassword) {
+            $conn = Db::getConnection();
+            $options = ['cost' => 12];
+            $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT, $options);
+
+            $statement = $conn->prepare("UPDATE users SET password = :password WHERE email = :email");
+            $statement->bindValue(":password", $passwordHash);
+            $statement->bindValue(":email", $this->email);
+            return $statement->execute();
+        }
     }
 ?>

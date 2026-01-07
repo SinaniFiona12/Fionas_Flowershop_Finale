@@ -53,7 +53,26 @@
   <div class="cart-layout">
     
     <div class="cart-items">
-      <p>Your cart items will appear here.</p>
+      <?php if(!empty($_SESSION['cart'])): ?>
+          <?php foreach($_SESSION['cart'] as $item): ?>
+          <div class="cart-item">
+            <div class="cart-item-image-placeholder" style="width:90px; height:90px; background:#eee; border-radius:8px;"></div>
+            
+            <div class="cart-item-details">
+              <h3><?php echo htmlspecialchars($item['name']); ?></h3>
+              <p class="cart-item-price">$<?php echo $item['price']; ?></p>
+              <div class="cart-item-actions">
+                  <p>Qty: <?php echo $item['qty']; ?></p>
+                  <button class="btn-remove">Remove</button>
+              </div>
+            </div>
+            <p class="cart-item-total">$<?php echo $item['price'] * $item['qty']; ?></p>
+          </div>
+          <?php endforeach; ?>
+      <?php else: ?>
+          <p>Je mandje is leeg.</p>
+      <?php endif; ?>
+      
       <a href="product-listing.php" class="btn-small continue-shopping">← Continue Shopping</a>
     </div>
 
@@ -62,7 +81,7 @@
       
       <div class="summary-line">
         <p>Subtotal</p>
-        <p>$0.00</p>
+        <p>$<?php echo $total; ?></p>
       </div>
       <div class="summary-line">
         <p>Shipping</p>
@@ -71,7 +90,7 @@
       
       <div class="summary-total summary-line">
         <h4>Order Total</h4>
-        <h4>$0.00</h4>
+        <h4>$<?php echo $total; ?></h4>
       </div>
       
       <button class="btn checkout-btn">Proceed to Checkout</button>

@@ -1,3 +1,50 @@
+<?php
+$products = [
+    ['id' => 1, 'name' => 'The Classic Rose Bouquet', 'category' => 'flowers', 'price' => 49.99, 'image' => 'images/rose_bouquet.png', 'color' => 'red'],
+    ['id' => 2, 'name' => 'Spring Whisper Tulips', 'category' => 'flowers', 'price' => 24.99, 'image' => 'images/tulips.png', 'color' => 'pink'],
+    ['id' => 3, 'name' => 'Sunny Sunflower Bundle', 'category' => 'flowers', 'price' => 15.00, 'image' => 'images/sunflowers.png', 'color' => 'yellow'],
+    ['id' => 4, 'name' => 'Elegant White Lilies', 'category' => 'flowers', 'price' => 35.00, 'image' => 'images/lillies.png', 'color' => 'white'],
+    ['id' => 5, 'name' => 'Wedding Dream Centerpiece', 'category' => 'occasions', 'price' => 85.00, 'image' => 'images/wedding.png', 'color' => 'white'],
+    ['id' => 6, 'name' => 'Birthday Brights', 'category' => 'occasions', 'price' => 45.00, 'image' => 'images/birthday.png', 'color' => 'pink'],
+    ['id' => 7, 'name' => 'Pure Sympathy Wreath', 'category' => 'occasions', 'price' => 60.00, 'image' => 'images/funeral.png', 'color' => 'white'],
+    ['id' => 8, 'name' => 'Romantic Rose Box', 'category' => 'occasions', 'price' => 120.00, 'image' => 'images/Romantic_bouquet.png', 'color' => 'red'],
+    ['id' => 9, 'name' => 'Rustic Clay Pot', 'category' => 'vases', 'price' => 34.50, 'image' => 'images/pot.png', 'color' => 'brown'],
+    ['id' => 10, 'name' => 'Tall Glass Vase', 'category' => 'vases', 'price' => 18.00, 'image' => 'images/simplevase.png', 'color' => 'clear'],
+    ['id' => 11, 'name' => 'Modern Geometric Vase', 'category' => 'vases', 'price' => 29.99, 'image' => 'images/geometricvase.png', 'color' => 'white'],
+    ['id' => 12, 'name' => 'Vintage Ceramic Jug', 'category' => 'vases', 'price' => 42.00, 'image' => 'images/jug.png', 'color' => 'white'],
+    ['id' => 13, 'name' => 'Golden Pruning Shears', 'category' => 'tools', 'price' => 19.99, 'image' => 'images/scisssors.png', 'color' => 'gold'],
+    ['id' => 14, 'name' => 'Copper Watering Can', 'category' => 'tools', 'price' => 45.00, 'image' => 'images/kan.png', 'color' => 'copper'],
+    ['id' => 15, 'name' => 'Pro Gardening Gloves', 'category' => 'tools', 'price' => 12.50, 'image' => 'images/gloves.png', 'color' => 'green'],
+    ['id' => 16, 'name' => 'Florist Tape & Twine', 'category' => 'tools', 'price' => 8.00, 'image' => 'images/floristtape.png', 'color' => 'green'],
+];
+
+$selectedCategory = $_GET['category'] ?? []; 
+$selectedColor    = $_GET['color'] ?? [];    
+$selectedSort     = $_GET['sort'] ?? '';
+
+if (!is_array($selectedCategory) && !empty($selectedCategory)) $selectedCategory = [$selectedCategory];
+if (!is_array($selectedColor) && !empty($selectedColor))       $selectedColor = [$selectedColor];
+
+$filteredProducts = $products;
+
+if (!empty($selectedCategory)) {
+    $filteredProducts = array_filter($filteredProducts, function($p) use ($selectedCategory) {
+        return in_array($p['category'], $selectedCategory);
+    });
+}
+if (!empty($selectedColor)) {
+    $filteredProducts = array_filter($filteredProducts, function($p) use ($selectedColor) {
+        return in_array($p['color'], $selectedColor);
+    });
+}
+
+if ($selectedSort === 'price_asc') {
+    usort($filteredProducts, fn($a, $b) => $a['price'] <=> $b['price']);
+} elseif ($selectedSort === 'price_desc') {
+    usort($filteredProducts, fn($a, $b) => $b['price'] <=> $a['price']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

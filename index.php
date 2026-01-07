@@ -36,5 +36,18 @@
 
   </div>
 </header>
+
+<section class="container">
+  <div class="hero">
+    <img src="images/decorative1.jpg" alt="Flowers"/>
+    <div class="hero-text">
+      <h1>Fresh flowers, crafted with love</h1>
+      <p>Beautiful, seasonal arrangements just for you.</p>
+      <a href="product-listing.php" class="btn">See All</a>
+    </div>
+  </div>
+</section>
+
+
 </body>
 </html>

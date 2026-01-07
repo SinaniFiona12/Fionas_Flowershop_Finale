@@ -1,3 +1,14 @@
+<?php
+    session_start();
+    // Simpele berekening van het totaal
+    $total = 0;
+    if(isset($_SESSION['cart'])){
+        foreach($_SESSION['cart'] as $item){
+            $total += $item['price'] * $item['qty'];
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

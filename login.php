@@ -12,7 +12,7 @@
 
             if ($userData) {
                 $_SESSION['user'] = $userData;
-                header('Location: index.php');
+                header('Location: profile.php');
                 exit();
             } else {
                 $error = "Foute gegevens.";

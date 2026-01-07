@@ -1,3 +1,41 @@
+<?php
+$products = [
+    ['id' => 1, 'name' => 'The Classic Rose Bouquet', 'category' => 'flowers', 'price' => 49.99, 'image' => 'images/rose_bouquet.png', 'color' => 'red', 'description' => 'A timeless arrangement of velvety red roses, perfect for expressing deep love and passion. Hand-tied with fresh greenery.'],
+    ['id' => 2, 'name' => 'Spring Whisper Tulips', 'category' => 'flowers', 'price' => 24.99, 'image' => 'images/tulips.png', 'color' => 'pink', 'description' => 'Capture the essence of spring with these delicate pink tulips. Freshly harvested to brighten any room.'],
+    ['id' => 3, 'name' => 'Sunny Sunflower Bundle', 'category' => 'flowers', 'price' => 15.00, 'image' => 'images/sunflowers.png', 'color' => 'yellow', 'description' => 'Radiant sunflowers that bring instant joy. Perfect for a rustic vase on the kitchen table.'],
+    ['id' => 4, 'name' => 'Elegant White Lilies', 'category' => 'flowers', 'price' => 35.00, 'image' => 'images/lillies.png', 'color' => 'white', 'description' => 'Sophisticated white lilies with a heavenly fragrance. A classic choice for elegant homes.'],
+    ['id' => 5, 'name' => 'Wedding Dream Centerpiece', 'category' => 'occasions', 'price' => 85.00, 'image' => 'images/wedding.png', 'color' => 'white', 'description' => 'A luxurious centerpiece designed for your special day, featuring premium white blooms and lush foliage.'],
+    ['id' => 6, 'name' => 'Birthday Brights', 'category' => 'occasions', 'price' => 45.00, 'image' => 'images/birthday.png', 'color' => 'pink', 'description' => 'A colorful mix of seasonal flowers to celebrate another trip around the sun!'],
+    ['id' => 7, 'name' => 'Pure Sympathy Wreath', 'category' => 'occasions', 'price' => 60.00, 'image' => 'images/funeral.png', 'color' => 'white', 'description' => 'A tasteful and respectful wreath to offer condolences and show you care.'],
+    ['id' => 8, 'name' => 'Romantic Rose Box', 'category' => 'occasions', 'price' => 120.00, 'image' => 'images/Romantic_bouquet.png', 'color' => 'red', 'description' => 'Our premium roses arranged in a stylish hatbox. The ultimate romantic gesture.'],
+    ['id' => 9, 'name' => 'Rustic Clay Pot', 'category' => 'vases', 'price' => 34.50, 'image' => 'images/pot.png', 'color' => 'brown', 'description' => 'Hand-thrown clay pot with a natural, earthy finish. Ideal for dried flowers or robust plants.'],
+    ['id' => 10, 'name' => 'Tall Glass Vase', 'category' => 'vases', 'price' => 18.00, 'image' => 'images/simplevase.png', 'color' => 'clear', 'description' => 'A simple, elegant cylinder vase that fits any bouquet style.'],
+    ['id' => 11, 'name' => 'Modern Geometric Vase', 'category' => 'vases', 'price' => 29.99, 'image' => 'images/geometricvase.png', 'color' => 'white', 'description' => 'A striking geometric design that adds a modern touch to your interior.'],
+    ['id' => 12, 'name' => 'Vintage Ceramic Jug', 'category' => 'vases', 'price' => 42.00, 'image' => 'images/jug.png', 'color' => 'white', 'description' => 'Charming vintage-style jug, perfect for a farmhouse look.'],
+    ['id' => 13, 'name' => 'Golden Pruning Shears', 'category' => 'tools', 'price' => 19.99, 'image' => 'images/scisssors.png', 'color' => 'gold', 'description' => 'Sharp, durable shears with a gold finish. Essential for any flower enthusiast.'],
+    ['id' => 14, 'name' => 'Copper Watering Can', 'category' => 'tools', 'price' => 45.00, 'image' => 'images/kan.png', 'color' => 'copper', 'description' => 'A functional watering can that looks beautiful enough to leave on display.'],
+    ['id' => 15, 'name' => 'Pro Gardening Gloves', 'category' => 'tools', 'price' => 12.50, 'image' => 'images/gloves.png', 'color' => 'green', 'description' => 'Protect your hands with these comfortable, durable gloves.'],
+    ['id' => 16, 'name' => 'Florist Tape & Twine', 'category' => 'tools', 'price' => 8.00, 'image' => 'images/floristtape.png', 'color' => 'green', 'description' => 'Professional grade tape and twine for arranging your own bouquets.'],
+];
+
+$productId = $_GET['id'] ?? null;
+$product = null;
+
+if ($productId) {
+    foreach ($products as $p) {
+        if ($p['id'] == $productId) {
+            $product = $p;
+            break;
+        }
+    }
+}
+
+if (!$product) {
+    header("Location: product-listing.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

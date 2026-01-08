@@ -7,6 +7,16 @@
         exit();
     }
     $user = $_SESSION['user'];
+
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("SELECT SUM(total_price) as total_spent FROM orders WHERE user_email = :email");
+    $statement->bindValue(":email", $_SESSION['user']['email']);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    $startBudget = 1000;
+    $totalSpent = $result['total_spent'] ?? 0; // Als er niks is uitgegeven, is het 0
+    $currentCurrency = $startBudget - $totalSpent;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +33,10 @@
 
 <main class="page-content login-bg">
   <div class="form-card wide" style="position: relative; padding-bottom: 5rem;"> <h2>Welcome back, <?php echo htmlspecialchars($user['fullname']); ?>!</h2>
-    <p style="margin-bottom: 2rem;">You are logged in as <strong><?php echo $user['role']; ?></strong>.</p>
+  <div style="background: #f9f9f9; padding: 10px; border-radius: 8px; margin-bottom: 1.5rem; display: inline-block;">
+        <span style="color: #666;">Current currency:</span> 
+        <span style="font-weight: bold; color: #222; font-size: 1.1rem;">$<?php echo number_format($currentCurrency, 2); ?></span>
+    </div>
 
     <?php if ($user['role'] === 'admin'): ?>
         <div class="form-row">

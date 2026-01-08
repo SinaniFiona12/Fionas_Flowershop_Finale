@@ -29,7 +29,7 @@
 <?php include_once(__DIR__ . "/nav.inc.php"); ?>
 
 <main class="container page-content">
-    <h2 style="font-family: 'Italiana', serif; margin-bottom: 2rem;">My Previous Orders</h2>
+    <h2 style="font-family: 'Italiana', serif; margin-left: 2em;margin-bottom: 2rem;">My Previous Orders</h2>
     
     <div style="background: white; padding: 2rem; border-radius: 12px; border: 1px solid #eee;">
         <?php if (count($orders) > 0): ?>

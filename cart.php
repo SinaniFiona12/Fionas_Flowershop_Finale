@@ -47,6 +47,26 @@
             $total += $item['price'] * $item['qty'];
         }
     }
+
+    $orderPlaced = false;
+    if (isset($_POST['checkout']) && $total > 0) {
+        if (!isset($_SESSION['user'])) {
+            header("Location: login.php");
+            exit();
+        }
+        
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("INSERT INTO orders (user_email, total_price) VALUES (:email, :total)");
+        $statement->bindValue(":email", $_SESSION['user']['email']);
+        $statement->bindValue(":total", $total);
+        $result = $statement->execute();
+
+        if ($result) {
+            unset($_SESSION['cart']); 
+            $orderPlaced = true;      
+            $total = 0;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -116,7 +136,11 @@
         <h4>$<?php echo $total; ?></h4>
       </div>
       
-      <button class="btn checkout-btn">Proceed to Checkout</button>
+      <form method="post">
+            <button type="submit" name="checkout" class="btn checkout-btn" <?php if($total <= 0) echo 'disabled style="opacity:0.5; cursor:not-allowed;"'; ?>>
+                Proceed to Checkout
+            </button>
+      </form>
     </aside>
 
   </div>

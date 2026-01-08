@@ -2,13 +2,13 @@
     session_start();
     include_once(__DIR__ . "/classes/Db.php");
 
-    // Check of user is ingelogd
+    
     if (!isset($_SESSION['user'])) {
         header("Location: login.php");
         exit();
     }
 
-    // Haal bestellingen op uit database
+    
     $conn = Db::getConnection();
     $statement = $conn->prepare("SELECT * FROM orders WHERE user_email = :email ORDER BY date DESC");
     $statement->bindValue(":email", $_SESSION['user']['email']);

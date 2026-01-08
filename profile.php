@@ -36,6 +36,7 @@
         <div class="form-row">
             <a href="orders.php" class="btn" style="text-align:center;">Previous Orders</a>
             <a href="change-password.php" class="btn" style="text-align:center;">Personal Information</a>
+            
         </div>
     <?php endif; ?>
 

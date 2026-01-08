@@ -88,7 +88,7 @@
         
         public static function search($term) {
             $conn = Db::getConnection();
-            $statement = $conn->prepare("SELECT * FROM products WHERE name LIKE :term OR description LIKE :term");
+            $statement = $conn->prepare("SELECT * FROM products WHERE name LIKE :term");
             $statement->bindValue(":term", "%" . $term . "%");
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);

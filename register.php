@@ -13,7 +13,23 @@
             }
             
             $user->setPassword($_POST['password']);
-            $user->register();
+            
+            if ($user->register()) {
+                if (session_status() == PHP_SESSION_NONE) {
+                    session_start();
+                }
+            
+                $_SESSION['user'] = [
+                    'email' => $user->getEmail(),
+                    'fullname' => $user->getFullname(),
+                    'role' => 'user', 
+                    'currency' => 1000 
+                ];
+            
+               
+                header("Location: profile.php");
+                exit();
+            }
 
             header("Location: login.php");
             exit();

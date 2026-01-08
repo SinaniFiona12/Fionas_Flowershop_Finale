@@ -49,6 +49,11 @@
 </header>
 
 <main class="container cart-page">
+<?php if(isset($_GET['error'])): ?>
+      <div style="background: #ffe7e9; color: red; padding: 1rem; margin-bottom: 1rem; border-radius: 8px;">
+          <?php echo htmlspecialchars($_GET['error']); ?>
+      </div>
+  <?php endif; ?>
   <h1>Your Shopping Cart</h1>
   <div class="cart-layout">
     

@@ -77,5 +77,12 @@
             $statement->execute();
             return $statement->fetch(PDO::FETCH_ASSOC);
         }
+
+        public static function delete($id) {
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("DELETE FROM products WHERE id = :id");
+            $statement->bindValue(":id", $id);
+            return $statement->execute();
+        }
     }
 ?>

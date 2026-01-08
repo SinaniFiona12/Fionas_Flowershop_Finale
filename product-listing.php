@@ -2,27 +2,24 @@
 include_once(__DIR__ . "/classes/Product.php");
 session_start();
 
-
+// 1. DELETE LOGICA (Alleen als admin)
 if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
     Product::delete($_GET['delete']);
     header("Location: product-listing.php?admin=true&deleted=1");
     exit();
 }
 
-
+// 2. FILTERS OPHALEN
 $categoryId = $_GET['category'] ?? null;
-$isAdminMode = isset($_GET['admin']) && $_GET['admin'] == 'true';
+// Check of we in admin-modus zijn (via URL of omdat we admin zijn en op dashboard klikten)
+$isAdminMode = (isset($_GET['admin']) && $_GET['admin'] == 'true') || (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin' && isset($_GET['admin']));
 
-
+// 3. PRODUCTEN OPHALEN UIT DATABASE
 if ($categoryId) {
-    
     $products = Product::getByCategory($categoryId);
 } else {
-   
     $products = Product::getAll();
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,7 +67,7 @@ if ($categoryId) {
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
       <h2>
           <?php echo $categoryId ? ucfirst($categoryId) : "All Products"; ?>
-          <?php if($isAdminMode) echo " <span style='color:red; font-size:0.6em;'>(Admin Mode)</span>"; ?>
+          <?php if($isAdminMode && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') echo " <span style='color:red; font-size:0.6em;'>(Admin Mode)</span>"; ?>
       </h2>
       
       <?php if(isset($_GET['deleted'])): ?>
@@ -106,7 +103,9 @@ if ($categoryId) {
                     
                     <?php if ($isAdminMode && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
                         <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;">
-                            <a href="product-listing.php?delete=<?php echo $product['id']; ?>&admin=true" class="btn-small" style="background:red; color:white; border:none;" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                            <a href="edit-product.php?id=<?php echo $product['id']; ?>" class="btn-small" style="background:#ddd; color:#222; border:none; text-decoration:none; padding: 0.3rem 0.8rem; font-size: 0.8rem;">Edit</a>
+                            
+                            <a href="product-listing.php?delete=<?php echo $product['id']; ?>&admin=true" class="btn-small" style="background:red; color:white; border:none; text-decoration:none; padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
                         </div>
                     <?php else: ?>
                         <form method="post" action="cart.php">

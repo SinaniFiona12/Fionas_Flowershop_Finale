@@ -90,5 +90,29 @@
             $statement->bindValue(":email", $this->email);
             return $statement->execute();
         }
+
+        public function getCurrency($email) {
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("SELECT currency FROM users WHERE email = :email");
+            $statement->bindValue(":email", $email);
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result['currency'] : 0;
+        }
+
+        public function pay($email, $amount) {
+            $conn = Db::getConnection();
+            
+            $currentCurrency = $this->getCurrency($email);
+            if ($currentCurrency < $amount) {
+                throw new Exception("Niet genoeg saldo! Je hebt " . $currentCurrency . " coins.");
+            }
+
+            
+            $statement = $conn->prepare("UPDATE users SET currency = currency - :amount WHERE email = :email");
+            $statement->bindValue(":amount", $amount);
+            $statement->bindValue(":email", $email);
+            return $statement->execute();
+        }
     }
 ?>

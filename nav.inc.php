@@ -23,9 +23,6 @@
         <button type="submit">Search</button>
       </form>
       
-      <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
-        <a href="product-listing.php?admin=true" class="btn-dashboard" style="background:var(--pink); color:#222; font-weight:bold; padding:0.5rem 1rem; border-radius:8px; text-decoration:none;">Dashboard</a>
-      <?php endif; ?>
 
       <?php if(isset($_SESSION['user'])): ?>
           <a href="profile.php"><img src="images/account.png" alt="Profile"></a>

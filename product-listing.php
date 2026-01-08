@@ -17,18 +17,17 @@ $categoryId = $_GET['category'] ?? null;
 $isAdminMode = (isset($_GET['admin']) && $_GET['admin'] == 'true') || (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin' && isset($_GET['admin']));
 
 
-
 $searchTerm = $_GET['search'] ?? null;
+$categoryId = $_GET['category'] ?? null;
 
 if ($searchTerm) {
-    
     $products = Product::search($searchTerm);
 } elseif ($categoryId) {
-    
     $products = Product::getByCategory($categoryId);
 } else {
     $products = Product::getAll();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

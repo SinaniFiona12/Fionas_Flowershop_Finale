@@ -34,12 +34,11 @@
   <link rel="stylesheet" href="form-styles.css" />
 </head>
 <body>
-<header class="site-header">
-    <div class="container header-inner">
-        <a class="brand" href="index.php">Fiona's Flowershop</a>
-        <a href="profile.php" class="btn-small">Back to Profile</a>
-    </div>
-</header>
+
+
+<?php include_once(__DIR__ . "/nav.inc.php"); ?>
+
+
 <main class="page-content login-bg">
   <div class="form-card">
     <h2>Change Password</h2>

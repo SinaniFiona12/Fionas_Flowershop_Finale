@@ -37,12 +37,11 @@
   <link rel="stylesheet" href="form-styles.css" />
 </head>
 <body>
-<header class="site-header">
-  <div class="container header-inner">
-      <a class="brand" href="index.php">Fiona's Admin</a>
-      <nav class="main-nav"><ul><li><a href="product-listing.php">View Products</a></li></ul></nav>
-  </div>
-</header>
+
+
+<?php include_once(__DIR__ . "/nav.inc.php"); ?>
+
+
 <main class="container page-content wide">
   <h2>Add New Product</h2>
   <div class="form-card wide">

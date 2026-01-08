@@ -36,29 +36,7 @@
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="header-left">
-      <a class="brand" href="index.php">Fiona's Flowershop</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="product-listing.php?category=flowers">Flowers</a></li>
-          <li><a href="product-listing.php?category=occasions">Occasions</a></li>
-          <li><a href="product-listing.php?category=vases">Vases</a></li>
-          <li><a href="product-listing.php?category=tools">Tools</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="header-right">
-      <form class="header-search" action="product-listing.php" method="get">
-        <input type="search" name="search" placeholder="Search…" />
-        <button type="submit">Search</button>
-      </form>
-      <a href="login.php"><img src="images/account.png" alt="Account"></a>
-      <a href="cart.php"><img src="images/cart.png" alt="Cart"></a>
-    </div>
-  </div>
-</header>
+<?php include_once(__DIR__ . "/nav.inc.php"); ?>
 
 <main class="page-content login-bg">
   <div class="form-card">

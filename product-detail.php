@@ -1,34 +1,35 @@
 <?php
+    session_start();
     include_once(__DIR__ . "/classes/Db.php");
     include_once(__DIR__ . "/classes/Product.php");
     include_once(__DIR__ . "/classes/Review.php");
-    session_start();
+    
 
-    // 1. Haal het ID uit de URL
+    
     $productId = $_GET['id'] ?? null;
     $product = null;
 
-    // 2. Haal product op uit de database (i.p.v. de hardcoded array)
+    
     if ($productId) {
         $product = Product::getById($productId);
     }
 
-    // Als product niet bestaat, terug naar de shop
+    
     if (!$product) {
         header("Location: product-listing.php");
         exit;
     }
 
-    // 3. Review Logic: Nieuwe review opslaan
+    
     if(isset($_POST['review_text']) && isset($_SESSION['user'])) {
         try {
             $review = new Review();
             $review->setProductId($productId);
-            $review->setUserEmail($_SESSION['user']['email']); // Of fullname als je dat liever hebt
+            $review->setUserEmail($_SESSION['user']['email']); 
             $review->setText($_POST['review_text']);
             $review->save();
             
-            // Ververs de pagina om dubbele posts te voorkomen
+            
             header("Location: product-detail.php?id=" . $productId);
             exit();
         } catch(Exception $e) {
@@ -36,7 +37,7 @@
         }
     }
 
-    // 4. Reviews ophalen voor dit product
+    
     $reviews = Review::getAllForProduct($productId);
 ?>
 
@@ -52,29 +53,7 @@
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="header-left">
-      <a class="brand" href="index.php">Fiona's Flowershop</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="product-listing.php?category=flowers">Flowers</a></li>
-          <li><a href="product-listing.php?category=occasions">Occasions</a></li>
-          <li><a href="product-listing.php?category=vases">Vases</a></li>
-          <li><a href="product-listing.php?category=tools">Tools</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="header-right">
-      <form class="header-search">
-        <input type="search" placeholder="Search…" />
-        <button type="submit">Search</button>
-      </form>
-      <a href="login.php"><img src="images/account.png" alt="Account"></a>
-      <a href="cart.php"><img src="images/cart.png" alt="Cart"></a>
-    </div>
-  </div>
-</header>
+<?php include_once(__DIR__ . "/nav.inc.php"); ?>
 
 <main class="container detail-layout" style="padding: 4rem 0;">
     <div class="detail-content">

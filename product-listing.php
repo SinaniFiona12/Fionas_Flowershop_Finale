@@ -1,8 +1,8 @@
 <?php
-
+session_start();
 include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/Product.php");
-session_start();
+
 
 
 if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
@@ -42,34 +42,7 @@ if ($searchTerm) {
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container header-inner">
-    <div class="header-left">
-      <a class="brand" href="index.php">Fiona's Flowershop</a>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="product-listing.php?category=flowers">Flowers</a></li>
-          <li><a href="product-listing.php?category=occasions">Occasions</a></li>
-          <li><a href="product-listing.php?category=vases">Vases</a></li>
-          <li><a href="product-listing.php?category=tools">Tools</a></li>
-        </ul>
-      </nav>
-    </div>
-    <div class="header-right">
-      <form class="header-search">
-        <input type="search" placeholder="Search…" />
-        <button type="submit">Search</button>
-      </form>
-      
-      <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
-        <a href="profile.php" style="font-weight:bold; color:var(--pink);">Dashboard</a>
-      <?php endif; ?>
-
-      <a href="login.php"><img src="images/account.png" alt="Account"></a>
-      <a href="cart.php"><img src="images/cart.png" alt="Cart"></a>
-    </div>
-  </div>
-</header>
+<?php include_once(__DIR__ . "/nav.inc.php"); ?>
 
 <main class="container shop-layout">
   

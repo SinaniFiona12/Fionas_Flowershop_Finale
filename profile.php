@@ -1,7 +1,7 @@
 <?php
     session_start();
     include_once(__DIR__ . "/classes/Db.php");
-    
+
     if (!isset($_SESSION['user'])) {
         header("Location: login.php");
         exit();
@@ -19,14 +19,7 @@
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container header-inner">
-      <a class="brand" href="index.php">Fiona's Flowershop</a>
-      <div class="header-right">
-          <a href="logout.php" class="btn-small" style="background: #eee;">Logout</a>
-      </div>
-  </div>
-</header>
+<?php include_once(__DIR__ . "/nav.inc.php"); ?>
 
 <main class="page-content login-bg">
   <div class="form-card wide">

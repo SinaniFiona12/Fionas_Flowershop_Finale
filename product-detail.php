@@ -1,18 +1,11 @@
 <?php
-    session_start();
     include_once(__DIR__ . "/classes/Db.php");
     include_once(__DIR__ . "/classes/Product.php");
     include_once(__DIR__ . "/classes/Review.php");
-    
+    session_start();
 
-    
-    $productId = $_GET['id'] ?? null;
-    $product = null;
-
-    
-    if ($productId) {
-        $product = Product::getById($productId);
-    }
+    $id = $_GET['id'];
+    $product = Product::getById($id);
 
     
     if (!$product) {
@@ -55,61 +48,56 @@
 
 <?php include_once(__DIR__ . "/nav.inc.php"); ?>
 
-<main class="container detail-layout" style="padding: 4rem 0;">
-    <div class="detail-content">
-      <div class="detail-image-wrapper">
-        <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
-      </div>
-      
-      <div class="detail-text">
-        <p class="breadcrumbs"><a href="product-listing.php">Shop</a> / <?php echo htmlspecialchars($product['name']); ?></p>
-        <h1><?php echo htmlspecialchars($product['name']); ?></h1>
-        <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
-        <p class="description"><?php echo htmlspecialchars($product['description']); ?></p>
-        
-        <form method="post" action="cart.php" style="margin-bottom: 2rem;">
-            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-            <button class="btn">Add to Cart</button>
-        </form>
+<main class="container" style="margin: 2rem; max-width: 1200px;">
 
-        <div class="reviews-section" style="margin-top: 3rem; border-top: 1px solid #eee; padding-top: 2rem;">
-            <h3 style="font-family: 'Italiana', serif; margin-bottom: 1rem;">Customer Reviews</h3>
-            
-            <?php if(isset($reviewError)): ?>
-                <p style="color:red;"><?php echo $reviewError; ?></p>
-            <?php endif; ?>
+    <a href="product-listing.php" style="text-decoration:none; color:#666; margin-bottom:1rem; display:inline-block;">&larr; Back to overview</a>
 
-            <?php if(isset($_SESSION['user'])): ?>
-                <form method="post" style="margin-bottom: 2rem;">
-                    <div class="form-group">
-                        <textarea name="review_text" rows="3" placeholder="Write a review about this product..." style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:8px; font-family:inherit;"></textarea>
-                    </div>
-                    <button type="submit" class="btn-small" style="margin-top:0.5rem;">Post Review</button>
-                </form>
-            <?php else: ?>
-                <div style="background: #fcfaf7; padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <p style="margin:0;">Please <a href="login.php" style="color:var(--pink); font-weight:bold; text-decoration: underline;">log in</a> to leave a review.</p>
-                </div>
-            <?php endif; ?>
+    <div class="product-detail-wrapper" style="display: flex; gap: 4rem; margin-bottom: 4rem; flex-wrap: wrap;">
 
-            <div class="reviews-list">
-                <?php if(!empty($reviews)): ?>
-                    <?php foreach($reviews as $r): ?>
-                        <div class="review-item" style="padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid #f0f0f0;">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
-                                <strong style="color:#222;"><?php echo htmlspecialchars($r['user_email']); ?></strong>
-                                <small style="color:#999;"><?php echo date('d M Y', strtotime($r['date'])); ?></small>
-                            </div>
-                            <p style="margin:0; color:#555; line-height: 1.5;"><?php echo htmlspecialchars($r['text']); ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p style="color:#777; font-style: italic;">No reviews yet. Be the first to share your thoughts!</p>
-                <?php endif; ?>
-            </div>
+        <div style="flex: 1; min-width: 300px; max-width: 500px;">
+            <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                 style="width: 100%; border-radius: 12px; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
         </div>
 
-      </div>
+        <div style="flex: 1; min-width: 300px;">
+            
+            <p style="color:#888; font-size: 0.9rem; margin-bottom:0.5rem;">Shop / <?php echo htmlspecialchars($product['name']); ?></p>
+            <h1 style="font-family: 'Italiana', serif; font-size: 3rem; margin-top: 0; margin-bottom: 0.5rem;"><?php echo htmlspecialchars($product['name']); ?></h1>
+            
+            <p style="font-size: 1.5rem; color: #222; font-weight: bold; margin-bottom: 2rem;">
+                $<?php echo number_format($product['price'], 2); ?>
+            </p>
+
+            <p style="line-height: 1.6; color: #444; margin-bottom: 2rem;">
+                <?php echo htmlspecialchars($product['description']); ?>
+            </p>
+
+            <form method="post" action="cart.php" style="margin-bottom: 3rem;">
+                <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+                <button type="submit" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">Add to Cart</button>
+            </form>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 2rem;">
+
+            <section class="reviews">
+                <h3 style="font-family: 'Italiana', serif; margin-bottom: 1rem;">Customer Reviews</h3>
+                
+                <form method="post" action="" style="margin-bottom: 2rem;">
+                    <textarea name="review_text" placeholder="Write a review..." required 
+                              style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; margin-bottom: 1rem;"></textarea>
+                    <button type="submit" class="btn-small">Post Review</button>
+                </form>
+
+                <div class="review-list">
+                     <div style="margin-bottom: 1.5rem;">
+                        <p style="font-weight: bold; margin-bottom: 0.2rem;">Lola@gmail.com <span style="font-weight:normal; color:#999; font-size:0.8em; float:right;">08 Jan 2026</span></p>
+                        <p style="color: #555;">I really liked these flowers!</p>
+                     </div>
+                </div>
+            </section>
+
+        </div>
     </div>
 </main>
 

@@ -73,7 +73,7 @@ if ($searchTerm) {
       <?php if (count($products) > 0): ?>
           <?php foreach ($products as $product): ?>
 
-            <article class="product-card">
+            <article class="product-card" id="product-<?php echo $product['id']; ?>">
                 <a href="product-detail.php?id=<?php echo $product['id']; ?>">
                     <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-image">
                 </a>
@@ -92,7 +92,7 @@ if ($searchTerm) {
                         <form method="post" action="cart.php">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
     
-                             <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+                            <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>#product-<?php echo $product['id']; ?>">
     
                                 <button type="submit" class="btn-small">Add to Cart</button>
                         </form>

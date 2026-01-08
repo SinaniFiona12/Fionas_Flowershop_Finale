@@ -14,7 +14,6 @@
                 $_SESSION['cart'] = [];
             }
 
-            
             if (isset($_SESSION['cart'][$id])) {
                 $_SESSION['cart'][$id]['qty']++;
             } else {
@@ -26,6 +25,12 @@
                     'qty' => 1
                 ];
             }
+
+            if (isset($_POST['return_url'])) {
+                header("Location: " . $_POST['return_url']);
+                exit();
+            }
+            
         }
     }
 
@@ -71,7 +76,7 @@
       <?php if(!empty($_SESSION['cart'])): ?>
           <?php foreach($_SESSION['cart'] as $item): ?>
           <div class="cart-item">
-            <div class="cart-item-image-placeholder" style="width:90px; height:90px; background:#eee; border-radius:8px;"></div>
+            <img src="<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="cart-item-image" style="width:90px; height:90px; object-fit: cover; border-radius: 8px;">
             
             <div class="cart-item-details">
               <h3><?php echo htmlspecialchars($item['name']); ?></h3>

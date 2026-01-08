@@ -91,7 +91,10 @@ if ($searchTerm) {
                     <?php else: ?>
                         <form method="post" action="cart.php">
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                            <button type="submit" class="btn-small">Add to Cart</button>
+    
+                             <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+    
+                                <button type="submit" class="btn-small">Add to Cart</button>
                         </form>
                     <?php endif; ?>
 

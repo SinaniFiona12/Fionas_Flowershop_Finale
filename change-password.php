@@ -8,17 +8,17 @@
     if (!empty($_POST)) {
         try {
             if ($_POST['new_password'] !== $_POST['confirm_password']) {
-                throw new Exception("Wachtwoorden komen niet overeen.");
+                throw new Exception("Passwords do not match.");
             }
             if (strlen($_POST['new_password']) < 6) {
-                throw new Exception("Wachtwoord moet minimaal 6 tekens zijn.");
+                throw new Exception("Password must be at least 6 characters long.");
             }
 
             $user = new User();
             $user->setEmail($_SESSION['user']['email']);
             $user->changePassword($_POST['new_password']);
             
-            $success = "Wachtwoord succesvol gewijzigd!";
+            $success = "Password changed successfully!";
         } catch (Exception $e) {
             $error = $e->getMessage();
         }

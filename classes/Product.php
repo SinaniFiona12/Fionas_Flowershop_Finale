@@ -12,7 +12,7 @@
 
         // Setters
         public function setName($name) {
-            if(empty($name)) throw new Exception("Naam is verplicht.");
+            if(empty($name)) throw new Exception("Name is required.");
             $this->name = $name;
             return $this;
         }
@@ -25,7 +25,7 @@
             return $this;
         }
         public function setPrice($price) {
-            if($price < 0) throw new Exception("Prijs mag niet negatief zijn.");
+            if($price < 0) throw new Exception("Price cannot be negative.");
             $this->price = $price;
             return $this;
         }

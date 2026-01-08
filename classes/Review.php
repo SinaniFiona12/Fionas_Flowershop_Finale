@@ -9,7 +9,7 @@
         public function setProductId($id) { $this->productId = $id; }
         public function setUserEmail($email) { $this->userEmail = $email; }
         public function setText($text) { 
-            if(empty($text)) throw new Exception("Review mag niet leeg zijn.");
+            if(empty($text)) throw new Exception("Review cannot be empty.");
             $this->text = $text; 
         }
 

@@ -1,6 +1,7 @@
 <?php
     session_start();
-    // Simpele berekening van het totaal
+    include_once(__DIR__ . "/classes/Db.php");
+    
     $total = 0;
     if(isset($_SESSION['cart'])){
         foreach($_SESSION['cart'] as $item){

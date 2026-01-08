@@ -1,5 +1,7 @@
 <?php
     session_start();
+    include_once(__DIR__ . "/classes/Db.php");
+    
     if (!isset($_SESSION['user'])) {
         header("Location: login.php");
         exit();

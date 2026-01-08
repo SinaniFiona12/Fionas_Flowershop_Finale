@@ -1,4 +1,5 @@
 <?php
+    include_once(__DIR__ . "/classes/Db.php");
     include_once(__DIR__ . "/classes/Product.php");
     include_once(__DIR__ . "/classes/Review.php");
     session_start();

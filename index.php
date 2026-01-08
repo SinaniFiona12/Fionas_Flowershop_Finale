@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+include_once(__DIR__ . "/classes/Db.php");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

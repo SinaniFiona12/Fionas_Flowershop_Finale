@@ -78,7 +78,14 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="shop-styles.css" /> 
   <link rel="stylesheet" href="cart-styles.css" />
+  <style>
+  .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+  .popup-content { background: white; padding: 2.5rem; border-radius: 12px; text-align: center; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+  .popup-content h2 { font-family: 'Italiana', serif; margin-top: 0; }
+  .popup-buttons { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; }
+</style>
 </head>
+
 <body>
 
 <?php include_once(__DIR__ . "/nav.inc.php"); ?>
@@ -89,7 +96,19 @@
           <?php echo htmlspecialchars($_GET['error']); ?>
       </div>
   <?php endif; ?>
-  <h1>Your Shopping Cart</h1>
+  <?php if ($orderPlaced): ?>
+    <div class="popup-overlay">
+        <div class="popup-content">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+            <h2>Order Successful!</h2>
+            <p>Thank you! Your order has been placed.</p>
+            <div class="popup-buttons">
+                <a href="orders.php" class="btn">View Previous Orders</a>
+                <a href="index.php" class="btn" style="background: #eee; border: 1px solid #ddd;">Back to Home</a>
+            </div>
+        </div>
+    </div>
+  <?php endif; ?>
   <div class="cart-layout">
     
     <div class="cart-items">

@@ -9,7 +9,7 @@
 
         public function setEmail($email) {
             if (empty($email)) {
-                throw new Exception("Email mag niet leeg zijn.");
+                throw new Exception("Email cannot be empty.");
             }
             $this->email = $email;
             return $this;
@@ -21,7 +21,7 @@
 
         public function setPassword($password) {
             if (empty($password) || strlen($password) < 6) {
-                throw new Exception("Wachtwoord moet minstens 6 tekens lang zijn.");
+                throw new Exception("Password must be at least 6 characters long.");
             }
             $this->password = $password;
             return $this;
@@ -33,7 +33,7 @@
 
         public function setFullname($fullname) {
             if (empty($fullname)) {
-                throw new Exception("Naam mag niet leeg zijn.");
+                throw new Exception("Name cannot be empty.");
             }
             $this->fullname = $fullname;
             return $this;
@@ -51,7 +51,7 @@
             $statement->bindValue(":email", $this->email);
             $statement->execute();
             if($statement->rowCount() > 0){
-                throw new Exception("Dit emailadres is al in gebruik.");
+                throw new Exception("This email address is already in use.");
             }
 
             $options = ['cost' => 12];
@@ -105,7 +105,7 @@
             
             $currentCurrency = $this->getCurrency($email);
             if ($currentCurrency < $amount) {
-                throw new Exception("Niet genoeg saldo! Je hebt " . $currentCurrency . " coins.");
+                throw new Exception("Insufficient balance! You have " . $currentCurrency . " coins.");
             }
 
             

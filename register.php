@@ -9,7 +9,7 @@
             $user->setEmail($_POST['email']);
             
             if ($_POST['password'] !== $_POST['confirm-password']) {
-                throw new Exception("Wachtwoorden komen niet overeen.");
+                throw new Exception("Passwords don't match");
             }
             
             $user->setPassword($_POST['password']);

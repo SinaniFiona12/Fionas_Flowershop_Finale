@@ -3,8 +3,6 @@ session_start();
 include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/Product.php");
 
-
-
 if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
     Product::delete($_GET['delete']);
     header("Location: product-listing.php?admin=true&deleted=1");
@@ -13,20 +11,64 @@ if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['rol
 
 
 $categoryId = $_GET['category'] ?? null;
+$searchTerm = $_GET['search'] ?? null;
+$priceFilter = $_GET['price'] ?? null;
 
 $isAdminMode = (isset($_GET['admin']) && $_GET['admin'] == 'true') || (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin' && isset($_GET['admin']));
 
 
-$searchTerm = $_GET['search'] ?? null;
-$categoryId = $_GET['category'] ?? null;
+$conn = Db::getConnection(); 
 
-if ($searchTerm) {
-    $products = Product::search($searchTerm);
-} elseif ($categoryId) {
-    $products = Product::getByCategory($categoryId);
-} else {
-    $products = Product::getAll();
+
+$query = "SELECT * FROM products WHERE 1=1";
+$params = [];
+
+
+if (!empty($searchTerm)) {
+    $query .= " AND (name LIKE :search OR description LIKE :search)";
+    $params[':search'] = "%" . $searchTerm . "%";
 }
+
+if (!empty($categoryId)) {
+    $query .= " AND category = :category";
+    $params[':category'] = $categoryId;
+}
+
+if (!empty($priceFilter)) {
+    $query .= " AND price <= :price";
+    $params[':price'] = $priceFilter;
+}
+
+
+if (isset($_GET['colors']) && is_array($_GET['colors'])) {
+ 
+    $colorPlaceholders = [];
+    foreach ($_GET['colors'] as $key => $color) {
+        $placeholder = ":color" . $key;
+        $colorPlaceholders[] = $placeholder;
+        $params[$placeholder] = $color;
+    }
+    $query .= " AND color IN (" . implode(', ', $colorPlaceholders) . ")";
+}
+
+
+$sortOrder = $_GET['sort'] ?? 'newest';
+switch ($sortOrder) {
+    case 'price-asc':
+        $query .= " ORDER BY price ASC";
+        break;
+    case 'price-desc':
+        $query .= " ORDER BY price DESC";
+        break;
+    case 'newest':
+    default:
+        $query .= " ORDER BY date DESC";
+        break;
+}
+
+$statement = $conn->prepare($query);
+$statement->execute($params);
+$products = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +100,7 @@ if ($searchTerm) {
 
   <div class="shop-grid">
     
-  <aside class="sidebar-filters">
+    <aside class="sidebar-filters">
     <h3>Categories</h3>
     <ul style="list-style:none; padding:0; margin-bottom: 2rem;">
         <li style="margin-bottom:0.5em;"><a href="product-listing.php" style="text-decoration:none; color:#222;">All Products</a></li>

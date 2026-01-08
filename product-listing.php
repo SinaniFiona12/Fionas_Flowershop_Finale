@@ -1,57 +1,35 @@
 <?php
-$products = [
-    ['id' => 1, 'name' => 'The Classic Rose Bouquet', 'category' => 'flowers', 'price' => 49.99, 'image' => 'images/rose_bouquet.png', 'color' => 'red'],
-    ['id' => 2, 'name' => 'Spring Whisper Tulips', 'category' => 'flowers', 'price' => 24.99, 'image' => 'images/tulips.png', 'color' => 'pink'],
-    ['id' => 3, 'name' => 'Sunny Sunflower Bundle', 'category' => 'flowers', 'price' => 15.00, 'image' => 'images/sunflowers.png', 'color' => 'yellow'],
-    ['id' => 4, 'name' => 'Elegant White Lilies', 'category' => 'flowers', 'price' => 35.00, 'image' => 'images/lillies.png', 'color' => 'white'],
-    ['id' => 5, 'name' => 'Wedding Dream Centerpiece', 'category' => 'occasions', 'price' => 85.00, 'image' => 'images/wedding.png', 'color' => 'white'],
-    ['id' => 6, 'name' => 'Birthday Brights', 'category' => 'occasions', 'price' => 45.00, 'image' => 'images/birthday.png', 'color' => 'pink'],
-    ['id' => 7, 'name' => 'Pure Sympathy Wreath', 'category' => 'occasions', 'price' => 60.00, 'image' => 'images/funeral.png', 'color' => 'white'],
-    ['id' => 8, 'name' => 'Romantic Rose Box', 'category' => 'occasions', 'price' => 120.00, 'image' => 'images/Romantic_bouquet.png', 'color' => 'red'],
-    ['id' => 9, 'name' => 'Rustic Clay Pot', 'category' => 'vases', 'price' => 34.50, 'image' => 'images/pot.png', 'color' => 'brown'],
-    ['id' => 10, 'name' => 'Tall Glass Vase', 'category' => 'vases', 'price' => 18.00, 'image' => 'images/simplevase.png', 'color' => 'clear'],
-    ['id' => 11, 'name' => 'Modern Geometric Vase', 'category' => 'vases', 'price' => 29.99, 'image' => 'images/geometricvase.png', 'color' => 'white'],
-    ['id' => 12, 'name' => 'Vintage Ceramic Jug', 'category' => 'vases', 'price' => 42.00, 'image' => 'images/jug.png', 'color' => 'white'],
-    ['id' => 13, 'name' => 'Golden Pruning Shears', 'category' => 'tools', 'price' => 19.99, 'image' => 'images/scisssors.png', 'color' => 'gold'],
-    ['id' => 14, 'name' => 'Copper Watering Can', 'category' => 'tools', 'price' => 45.00, 'image' => 'images/kan.png', 'color' => 'copper'],
-    ['id' => 15, 'name' => 'Pro Gardening Gloves', 'category' => 'tools', 'price' => 12.50, 'image' => 'images/gloves.png', 'color' => 'green'],
-    ['id' => 16, 'name' => 'Florist Tape & Twine', 'category' => 'tools', 'price' => 8.00, 'image' => 'images/floristtape.png', 'color' => 'green'],
-];
+include_once(__DIR__ . "/classes/Product.php");
+session_start();
 
-$selectedCategory = $_GET['category'] ?? []; 
-$selectedColor    = $_GET['color'] ?? [];    
-$selectedSort     = $_GET['sort'] ?? '';
 
-if (!is_array($selectedCategory) && !empty($selectedCategory)) $selectedCategory = [$selectedCategory];
-if (!is_array($selectedColor) && !empty($selectedColor))       $selectedColor = [$selectedColor];
-
-$filteredProducts = $products;
-
-if (!empty($selectedCategory)) {
-    $filteredProducts = array_filter($filteredProducts, function($p) use ($selectedCategory) {
-        return in_array($p['category'], $selectedCategory);
-    });
-}
-if (!empty($selectedColor)) {
-    $filteredProducts = array_filter($filteredProducts, function($p) use ($selectedColor) {
-        return in_array($p['color'], $selectedColor);
-    });
+if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+    Product::delete($_GET['delete']);
+    header("Location: product-listing.php?admin=true&deleted=1");
+    exit();
 }
 
-if ($selectedSort === 'price_asc') {
-    usort($filteredProducts, fn($a, $b) => $a['price'] <=> $b['price']);
-} elseif ($selectedSort === 'price_desc') {
-    usort($filteredProducts, fn($a, $b) => $b['price'] <=> $a['price']);
+
+$categoryId = $_GET['category'] ?? null;
+$isAdminMode = isset($_GET['admin']) && $_GET['admin'] == 'true';
+
+
+if ($categoryId) {
+    
+    $products = Product::getByCategory($categoryId);
+} else {
+   
+    $products = Product::getAll();
 }
+
+
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shop All Products | Fiona's Flowershop</title>
-  
   <link href="https://fonts.googleapis.com/css2?family=Italiana&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="shop-styles.css" /> 
@@ -76,6 +54,11 @@ if ($selectedSort === 'price_asc') {
         <input type="search" placeholder="Search…" />
         <button type="submit">Search</button>
       </form>
+      
+      <?php if(isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
+        <a href="profile.php" style="font-weight:bold; color:var(--pink);">Dashboard</a>
+      <?php endif; ?>
+
       <a href="login.php"><img src="images/account.png" alt="Account"></a>
       <a href="cart.php"><img src="images/cart.png" alt="Cart"></a>
     </div>
@@ -83,63 +66,63 @@ if ($selectedSort === 'price_asc') {
 </header>
 
 <main class="container shop-layout">
-  <h2>All Products</h2>
   
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+      <h2>
+          <?php echo $categoryId ? ucfirst($categoryId) : "All Products"; ?>
+          <?php if($isAdminMode) echo " <span style='color:red; font-size:0.6em;'>(Admin Mode)</span>"; ?>
+      </h2>
+      
+      <?php if(isset($_GET['deleted'])): ?>
+        <p style="color:green; font-weight:bold;">Product deleted successfully.</p>
+      <?php endif; ?>
+  </div>
+
   <div class="shop-grid">
     
-  <aside class="sidebar-filters">
-      <form action="product-listing.php" method="GET">
-        <h3>Filter & Sort</h3>
-        
-        <div class="filter-group">
-            <h4>Category</h4>
-            <label><input type="checkbox" name="category[]" value="flowers"> Flowers</label>
-            <label><input type="checkbox" name="category[]" value="vases"> Vases</label>
-            <label><input type="checkbox" name="category[]" value="tools"> Tools</label>
-            <label><input type="checkbox" name="category[]" value="occasions"> Occasions</label>
-        </div>
-
-        <div class="filter-group">
-            <h4>Color</h4>
-            <label><input type="checkbox" name="color[]" value="pink"> Pink</label>
-            <label><input type="checkbox" name="color[]" value="white"> White</label>
-            <label><input type="checkbox" name="color[]" value="red"> Red</label>
-        </div>
-
-        <div class="filter-group">
-            <h4>Sort By</h4>
-            <select name="sort" onchange="this.form.submit()">
-                <option value="">Default</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn-small" style="width:100%; margin-top:10px;">Apply Filters</button>
-        <a href="product-listing.php" style="display:block; text-align:center; margin-top:10px; font-size: 0.9em; color:#555;">Clear filters</a>
-      </form>
+    <aside class="sidebar-filters">
+        <h3>Categories</h3>
+        <ul style="list-style:none; padding:0;">
+            <li style="margin-bottom:0.5em;"><a href="product-listing.php" style="text-decoration:none; color:#222;">All Products</a></li>
+            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=flowers" style="text-decoration:none; color:#222;">Flowers</a></li>
+            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=occasions" style="text-decoration:none; color:#222;">Occasions</a></li>
+            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=vases" style="text-decoration:none; color:#222;">Vases</a></li>
+            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=tools" style="text-decoration:none; color:#222;">Tools</a></li>
+        </ul>
     </aside>
 
     <div class="product-grid">
-      <?php if (count($filteredProducts) > 0): ?>
-          <?php foreach ($filteredProducts as $product): ?>
+      <?php if (count($products) > 0): ?>
+          <?php foreach ($products as $product): ?>
+
             <article class="product-card">
                 <a href="product-detail.php?id=<?php echo $product['id']; ?>">
-                    <img src="<?php echo $product['image']; ?>" alt="<?php echo strip_tags($product['name']); ?>" class="product-image">
+                    <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>" class="product-image">
                 </a>
                 <div class="product-info">
-                    <h3><a href="product-detail.php?id=<?php echo $product['id']; ?>"><?php echo $product['name']; ?></a></h3>
+                    <h3><a href="product-detail.php?id=<?php echo $product['id']; ?>"><?php echo htmlspecialchars($product['name']); ?></a></h3>
                     <p class="product-category"><?php echo ucfirst($product['category']); ?></p>
                     <p class="product-price">$<?php echo number_format($product['price'], 2); ?></p>
-                    <button class="btn-small">Add to Cart</button>
+                    
+                    <?php if ($isAdminMode && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin'): ?>
+                        <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:0.5rem;">
+                            <a href="product-listing.php?delete=<?php echo $product['id']; ?>&admin=true" class="btn-small" style="background:red; color:white; border:none;" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                        </div>
+                    <?php else: ?>
+                        <form method="post" action="cart.php">
+                            <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                            <button type="submit" class="btn-small">Add to Cart</button>
+                        </form>
+                    <?php endif; ?>
+
                 </div>
             </article>
+
           <?php endforeach; ?>
       <?php else: ?>
-          <p>No products found.</p>
+          <p>No products found in this category.</p>
       <?php endif; ?>
     </div>
-
   </div>
 </main>
 

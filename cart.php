@@ -1,6 +1,40 @@
 <?php
     session_start();
     include_once(__DIR__ . "/classes/Db.php");
+    include_once(__DIR__ . "/classes/Product.php");
+
+    
+    if (isset($_POST['product_id'])) {
+        $id = $_POST['product_id'];
+        $product = Product::getById($id);
+
+        if ($product) {
+            
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
+            }
+
+            
+            if (isset($_SESSION['cart'][$id])) {
+                $_SESSION['cart'][$id]['qty']++;
+            } else {
+                $_SESSION['cart'][$id] = [
+                    'id' => $product['id'],
+                    'name' => $product['name'],
+                    'price' => $product['price'],
+                    'image' => $product['image'],
+                    'qty' => 1
+                ];
+            }
+        }
+    }
+
+    
+    if (isset($_POST['remove_id'])) {
+        $removeId = $_POST['remove_id'];
+        unset($_SESSION['cart'][$removeId]);
+    }
+
     
     $total = 0;
     if(isset($_SESSION['cart'])){
@@ -44,7 +78,10 @@
               <p class="cart-item-price">$<?php echo $item['price']; ?></p>
               <div class="cart-item-actions">
                   <p>Qty: <?php echo $item['qty']; ?></p>
-                  <button class="btn-remove">Remove</button>
+                  <form method="post" style="display:inline;">
+                        <input type="hidden" name="remove_id" value="<?php echo $item['id']; ?>">
+                        <button type="submit" class="btn-remove">Remove</button>
+                    </form>
               </div>
             </div>
             <p class="cart-item-total">$<?php echo $item['price'] * $item['qty']; ?></p>

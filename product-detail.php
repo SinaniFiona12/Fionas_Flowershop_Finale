@@ -7,32 +7,36 @@
     $id = $_GET['id'];
     $product = Product::getById($id);
 
-    
-    if (!$product) {
-        header("Location: product-listing.php");
-        exit;
-    }
+    if (isset($_POST['review_text'])) {
+        if(isset($_SESSION['user'])) {
+            $text = $_POST['review_text'];
+            $email = $_SESSION['user']['email']; 
 
-    
-    if(isset($_POST['review_text']) && isset($_SESSION['user'])) {
-        try {
-            $review = new Review();
-            $review->setProductId($productId);
-            $review->setUserEmail($_SESSION['user']['email']); 
-            $review->setText($_POST['review_text']);
-            $review->save();
+            $conn = Db::getConnection();
             
-            
-            header("Location: product-detail.php?id=" . $productId);
+            $statement = $conn->prepare("INSERT INTO reviews (text, user_email, product_id) VALUES (:text, :email, :pid)");
+            $statement->bindValue(":text", $text);
+            $statement->bindValue(":email", $email);
+            $statement->bindValue(":pid", $id); 
+            $statement->execute();
+        } else {
+            header("Location: login.php");
             exit();
-        } catch(Exception $e) {
-            $reviewError = $e->getMessage();
         }
     }
 
     
-    $reviews = Review::getAllForProduct($productId);
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("SELECT * FROM reviews WHERE product_id = :pid ORDER BY id DESC");
+    $statement->bindValue(":pid", $id);
+    $statement->execute();
+    $reviews = $statement->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+    
+    
+    
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,11 +94,19 @@
                 </form>
 
                 <div class="review-list">
-                     <div style="margin-bottom: 1.5rem;">
-                        <p style="font-weight: bold; margin-bottom: 0.2rem;">Lola@gmail.com <span style="font-weight:normal; color:#999; font-size:0.8em; float:right;">08 Jan 2026</span></p>
-                        <p style="color: #555;">I really liked these flowers!</p>
-                     </div>
-                </div>
+                    <?php if(count($reviews) > 0): ?>
+                         <?php foreach($reviews as $review): ?>
+                             <div style="margin-bottom: 1.5rem;">
+                              <p style="font-weight: bold; margin-bottom: 0.2rem;">
+                                <?php echo htmlspecialchars($review['user_email']); ?>
+                                 </p>
+                              <p style="color: #555;"><?php echo htmlspecialchars($review['text']); ?></p>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p style="color:#999; font-style:italic;">No reviews yet. Be the first to write one!</p>
+    <?php endif; ?>
+</div>
             </section>
 
         </div>

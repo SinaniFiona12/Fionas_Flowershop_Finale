@@ -58,16 +58,51 @@ if ($searchTerm) {
 
   <div class="shop-grid">
     
-    <aside class="sidebar-filters">
-        <h3>Categories</h3>
-        <ul style="list-style:none; padding:0;">
-            <li style="margin-bottom:0.5em;"><a href="product-listing.php" style="text-decoration:none; color:#222;">All Products</a></li>
-            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=flowers" style="text-decoration:none; color:#222;">Flowers</a></li>
-            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=occasions" style="text-decoration:none; color:#222;">Occasions</a></li>
-            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=vases" style="text-decoration:none; color:#222;">Vases</a></li>
-            <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=tools" style="text-decoration:none; color:#222;">Tools</a></li>
-        </ul>
-    </aside>
+  <aside class="sidebar-filters">
+    <h3>Categories</h3>
+    <ul style="list-style:none; padding:0; margin-bottom: 2rem;">
+        <li style="margin-bottom:0.5em;"><a href="product-listing.php" style="text-decoration:none; color:#222;">All Products</a></li>
+        <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=flowers" style="text-decoration:none; color:#222;">Flowers</a></li>
+        <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=occasions" style="text-decoration:none; color:#222;">Occasions</a></li>
+        <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=vases" style="text-decoration:none; color:#222;">Vases</a></li>
+        <li style="margin-bottom:0.5em;"><a href="product-listing.php?category=tools" style="text-decoration:none; color:#222;">Tools</a></li>
+    </ul>
+
+    <form action="product-listing.php" method="GET">
+        
+        <?php if($categoryId): ?><input type="hidden" name="category" value="<?php echo htmlspecialchars($categoryId); ?>"><?php endif; ?>
+        <?php if($searchTerm): ?><input type="hidden" name="search" value="<?php echo htmlspecialchars($searchTerm); ?>"><?php endif; ?>
+
+        <h3>Color</h3>
+        <div style="margin-bottom: 2rem;">
+            <label style="display:block; margin-bottom:0.5rem;">
+                <input type="checkbox" name="colors[]" value="pink" <?php if(isset($_GET['colors']) && in_array('pink', $_GET['colors'])) echo 'checked'; ?>> Pink
+            </label>
+            <label style="display:block; margin-bottom:0.5rem;">
+                <input type="checkbox" name="colors[]" value="white" <?php if(isset($_GET['colors']) && in_array('white', $_GET['colors'])) echo 'checked'; ?>> White
+            </label>
+            <label style="display:block; margin-bottom:0.5rem;">
+                <input type="checkbox" name="colors[]" value="red" <?php if(isset($_GET['colors']) && in_array('red', $_GET['colors'])) echo 'checked'; ?>> Red
+            </label>
+        </div>
+
+        <h3>Max Price</h3>
+        <div style="margin-bottom: 2rem;">
+            <input type="number" name="price" placeholder="50" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" value="<?php echo htmlspecialchars($_GET['price'] ?? ''); ?>">
+        </div>
+
+        <h3>Sort By</h3>
+        <div style="margin-bottom: 2rem;">
+            <select name="sort" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;">
+                <option value="newest" <?php if(($sortOrder ?? '') == 'newest') echo 'selected'; ?>>Newest</option>
+                <option value="price-asc" <?php if(($sortOrder ?? '') == 'price-asc') echo 'selected'; ?>>Price: Low to High</option>
+                <option value="price-desc" <?php if(($sortOrder ?? '') == 'price-desc') echo 'selected'; ?>>Price: High to Low</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn" style="width:100%;">Apply Filters</button>
+    </form>
+</aside>
 
     <div class="product-grid">
       <?php if (count($products) > 0): ?>

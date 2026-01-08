@@ -29,7 +29,7 @@ $params = [];
 
 
 if (!empty($searchTerm)) {
-    $query .= " AND (name LIKE :search OR description LIKE :search)";
+    $query .= " AND name LIKE :search";
     $params[':search'] = "%" . $searchTerm . "%";
 }
 
@@ -66,7 +66,7 @@ switch ($sortOrder) {
         break;
     case 'newest':
     default:
-        $query .= " ORDER BY `date` DESC";
+    $query .= " ORDER BY `date` DESC";
         break;
 }
 

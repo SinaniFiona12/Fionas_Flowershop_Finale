@@ -78,6 +78,31 @@
             return $statement->fetch(PDO::FETCH_ASSOC);
         }
 
+        public static function update($id, $name, $description, $category, $price, $stock, $color, $image) {
+            $conn = Db::getConnection();
+            $stmt = $conn->prepare("
+                UPDATE products SET
+                name = :name,
+                description = :description,
+                category = :category,
+                price = :price,
+                stock = :stock,
+                color = :color,
+                image = :image
+                WHERE id = :id
+            ");
+            $stmt->execute([
+                ':id' => $id,
+                ':name' => $name,
+                ':description' => $description,
+                ':category' => $category,
+                ':price' => $price,
+                ':stock' => $stock,
+                ':color' => $color,
+                ':image' => $image
+            ]);
+        }
+        
         public static function delete($id) {
             $conn = Db::getConnection();
             $statement = $conn->prepare("DELETE FROM products WHERE id = :id");
@@ -93,5 +118,7 @@
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        
     }
 ?>

@@ -3,6 +3,10 @@ session_start();
 include_once(__DIR__ . "/classes/Db.php");
 include_once(__DIR__ . "/classes/Product.php");
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
     Product::delete($_GET['delete']);
     header("Location: product-listing.php?admin=true&deleted=1");
@@ -62,7 +66,7 @@ switch ($sortOrder) {
         break;
     case 'newest':
     default:
-        $query .= " ORDER BY date DESC";
+        $query .= " ORDER BY `date` DESC";
         break;
 }
 

@@ -2,20 +2,27 @@
 include_once(__DIR__ . "/classes/Product.php");
 session_start();
 
-// 1. DELETE LOGICA (Alleen als admin)
+
 if (isset($_GET['delete']) && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
     Product::delete($_GET['delete']);
     header("Location: product-listing.php?admin=true&deleted=1");
     exit();
 }
 
-// 2. FILTERS OPHALEN
+
 $categoryId = $_GET['category'] ?? null;
-// Check of we in admin-modus zijn (via URL of omdat we admin zijn en op dashboard klikten)
+
 $isAdminMode = (isset($_GET['admin']) && $_GET['admin'] == 'true') || (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin' && isset($_GET['admin']));
 
-// 3. PRODUCTEN OPHALEN UIT DATABASE
-if ($categoryId) {
+
+
+$searchTerm = $_GET['search'] ?? null;
+
+if ($searchTerm) {
+    
+    $products = Product::search($searchTerm);
+} elseif ($categoryId) {
+    
     $products = Product::getByCategory($categoryId);
 } else {
     $products = Product::getAll();
